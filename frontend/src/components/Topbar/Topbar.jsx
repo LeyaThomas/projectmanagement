@@ -8,6 +8,8 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import logo from '../../Assets/logo.png';
+
 
 const Topbar = () => {
   const theme = useTheme();
@@ -15,11 +17,12 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <Box display="flex" justifyContent="flex-end" p={2} >
+    <Box display="flex" justifyContent="flex-end"  alignItems="flex-start" p={2} >
+      <img src={logo} alt="Logo" style={{ position: 'relative', top: '-70px', marginRight: 'auto', marginLeft: '10px' }} />
       {/* SEARCH BAR */}
 
       {/* ICONS */}
-      <Box display="flex">
+      <Box display="flex" >
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />

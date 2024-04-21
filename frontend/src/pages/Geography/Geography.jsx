@@ -1,5 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import GeographyChart from "../../components/GeographyChart";
+import GeographyChart from "../../components/GeographyChart/GeographyChart";
 import Header from "../../components/Header/Header";
 import { tokens } from "../../Theme";
 
@@ -7,7 +7,7 @@ const Geography = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
-    <Box m="20px">
+    <Box mt="-140px">
       <Header title="Geography" subtitle="Simple Geography Chart" />
 
       <Box

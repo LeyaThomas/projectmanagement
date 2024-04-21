@@ -44,7 +44,7 @@ const Expense = () => {
     ];
   
     return (
-      <Box m="20px">
+      <Box mt="-140px">
         <Header title="INVOICES" subtitle="List of Invoice Balances" />
         <Box
           m="40px 0 0 0"

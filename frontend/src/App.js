@@ -7,7 +7,7 @@ import {
   Routes,
   Navigate
 } from "react-router-dom";
-import {Calendar, Contacts, Dashboard, Expense, FAQ, Geography, Login, Signup, Team } from "./pages";
+import {Calendar, Contacts, Dashboard, Expense, FAQ, Geography, Login, Signup, Team, UpdateHub } from "./pages";
 import { ProtectedRoute, Sidebar, Topbar } from "./components";
 
 
@@ -20,7 +20,7 @@ function App() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(false);
+
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -54,6 +54,7 @@ function ProtectedRoutes({ setIsCollapsed, isCollapsed }) {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/geography" element={<Geography />} />
+            <Route path="/update" element={<UpdateHub />} />
           </Routes>
         </div>
       </div>

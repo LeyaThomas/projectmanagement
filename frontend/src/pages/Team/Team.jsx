@@ -69,7 +69,7 @@ const Team = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box mt="-140px"> {/* Adjusted margin to move content upward */}
       <Header title="TEAM" subtitle="Managing the Team Members" />
       <Box
         m="40px 0 0 0"

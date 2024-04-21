@@ -15,7 +15,9 @@ import {
   PieChartOutlined as PieChartOutlinedIcon,
   TimelineOutlined as TimelineOutlinedIcon,
   MapOutlined as MapOutlinedIcon,
-  MenuOutlined as MenuOutlinedIcon
+  MenuOutlined as MenuOutlinedIcon,
+  ExitToAppOutlined as LogoutIcon,
+  UpdateOutlined as UpdateIcon,
 } from '@material-ui/icons';
 
 const Item = ({ title, to, icon, selected, setSelected, onPress }) => {
@@ -53,17 +55,23 @@ const Sidebar = () => {
     { title: "Contacts Information", to: "/contacts", icon: <ContactsOutlinedIcon /> },
     { title: "Project Expenses", to: "/expense", icon: <ReceiptOutlinedIcon /> },
     { title: "Calendar", to: "/calendar", icon: <CalendarTodayOutlinedIcon /> },
-    { title: "FAQ Page", to: "/faq", icon: <HelpOutlineOutlinedIcon /> },
+    { title: "Update Hub", to: "/update", icon: <UpdateIcon /> },
     { title: "Ranking Chart", to: "/bar", icon: <BarChartOutlinedIcon /> },
     { title: "Team Karma", to: "/pie", icon: <PieChartOutlinedIcon /> },
     { title: "Profit Analysis", to: "/line", icon: <TimelineOutlinedIcon /> },
     { title: "Geography Chart", to: "/geography", icon: <MapOutlinedIcon /> },
+    { title: "FAQ Page", to: "/faq", icon: <HelpOutlineOutlinedIcon /> },
+   
+    { title: "Logout", to: "/logout", icon: <LogoutIcon /> },
+    
   ];
+
 
   return (
     <Box
       sx={{
         height: "100vh",
+        marginTop: '-170px', 
         "& .pro-sidebar-inner": {
           backgroundColor: "transparent !important",
         },

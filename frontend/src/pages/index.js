@@ -7,3 +7,4 @@ export { default as Expense } from './Expense/Expense.jsx';
 export { default as Calendar } from './Calendar/Calendar.jsx';
 export { default as FAQ } from './FAQ/FAQ.jsx';
 export { default as Geography } from './Geography/Geography.jsx';
+export { default as UpdateHub } from './UpdateHub/UpdateHub.jsx';

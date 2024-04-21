@@ -54,7 +54,7 @@ const Contacts = () => {
     ];
   
     return (
-      <Box m="20px">
+      <Box mt="-140px">
         <Header
           title="CONTACTS"
           subtitle="List of Contacts for Future Reference"
