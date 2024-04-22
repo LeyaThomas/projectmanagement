@@ -1,0 +1,118 @@
+import React, { useState } from "react";
+import { Box, MenuItem, Typography, Link, useTheme, IconButton } from "@mui/material";
+import { ProSidebar, Menu } from "react-pro-sidebar";
+import {
+  HomeOutlined as HomeOutlinedIcon,
+  PeopleOutlined as PeopleOutlinedIcon,
+  ContactsOutlined as ContactsOutlinedIcon,
+  ReceiptOutlined as ReceiptOutlinedIcon,
+  CalendarTodayOutlined as CalendarTodayOutlinedIcon,
+  HelpOutlineOutlined as HelpOutlineOutlinedIcon,
+  BarChartOutlined as BarChartOutlinedIcon,
+  PieChartOutlined as PieChartOutlinedIcon,
+  TimelineOutlined as TimelineOutlinedIcon,
+  MapOutlined as MapOutlinedIcon,
+  MenuOutlined as MenuOutlinedIcon
+} from '@material-ui/icons';
+import { tokens } from "../../Theme";
+
+// Individual menu item
+const Item = ({ title, to, icon: Icon, selected, setSelected }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  return (
+    <Link to={to}>
+      <MenuItem
+        active={selected === title}
+        style={{ color: colors?.gray[100] }}
+        onClick={() => setSelected(title)}
+      >
+        {Icon && <Icon />}
+        <Typography>{title}</Typography>
+      </MenuItem>
+    </Link>
+  );
+};
+
+// Sidebar component
+const Sidebar = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [selected, setSelected] = useState("Dashboard");
+  const menuItems = [
+    { title: "Dashboard", to: "/dashboard", icon: HomeOutlinedIcon },
+    { title: "Manage Team", to: "/team", icon: PeopleOutlinedIcon },
+    { title: "Contacts Information", to: "/contacts", icon: ContactsOutlinedIcon },
+    { title: "Project Expenses", to: "/invoices", icon: ReceiptOutlinedIcon },
+    { title: "Calendar", to: "/calendar", icon: CalendarTodayOutlinedIcon },
+    { title: "FAQ Page", to: "/faq", icon: HelpOutlineOutlinedIcon },
+    { title: "Ranking Chart", to: "/bar", icon: BarChartOutlinedIcon },
+    { title: "Team Karma", to: "/pie", icon: PieChartOutlinedIcon },
+    { title: "Profit Analysis", to: "/line", icon: TimelineOutlinedIcon },
+    { title: "Geography Chart", to: "/geography", icon: MapOutlinedIcon },
+  ];
+
+  return (
+    <Box
+      sx={{
+        "& .pro-sidebar-inner": {
+          background: `${colors.primary[400]} !important`,
+        },
+        "& .pro-icon-wrapper": {
+          backgroundColor: "transparent !important",
+        },
+        "& .pro-inner-item": {
+          padding: "5px 35px 5px 20px !important",
+        },
+        "& .pro-inner-item:hover": {
+          color: "#868dfb !important",
+        },
+        "& .pro-menu-item.active": {
+          color: "#6870fa !important",
+        },
+      }}
+    >
+      <ProSidebar collapsed={!isCollapsed}>
+        <Menu iconShape="square">
+          <MenuItem
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            sx={{ margin: "10px 0 20px 0", color: colors.gray[100], }}
+          >
+            {!isCollapsed && (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="15px"
+              >
+                <Typography variant="h3" color={colors.gray[100]}>
+
+                </Typography>
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  <MenuOutlinedIcon />
+                </IconButton>
+              </Box>
+            )}
+          </MenuItem>
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            {menuItems.map((item) => (
+              <Item
+                key={item.title}
+                title={item.title}
+                to={item.to}
+                icon={item.icon}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            ))}
+          </Box>
+        </Menu>
+      </ProSidebar>
+    </Box >
+  );
+};
+
+export default Sidebar;
