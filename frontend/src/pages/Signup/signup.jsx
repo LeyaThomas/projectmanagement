@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { FormControl,InputLabel, TextField, FormControlLabel, Radio, RadioGroup, Select, MenuItem } from '@material-ui/core';
 import axios from 'axios';
-import { TextField, Button, Typography, Container } from '@mui/material';
 
-const SignUp = () => {
-  const [username, setUsername] = useState('');
+function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [role, setRole] = useState('employee');
+  const [company, setCompany] = useState('');
+  const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  const companies = [
+    { id: 1, name: 'Company 1' },
+    { id: 2, name: 'Company 2' },
+    // Add more companies as needed
+  ];
 
   const signUp = async (e) => {
     e.preventDefault();
@@ -17,6 +28,11 @@ const SignUp = () => {
         username,
         email,
         password,
+        name,
+        phoneNumber,
+        address,
+        role,
+        company,
       });
 
       if (response.status === 201) {
@@ -30,68 +46,139 @@ const SignUp = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <div style={{ marginTop: '180px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography component="h1" variant="h4" style={{ fontWeight: 'bold', marginBottom: '16px' }}>
-          Create an Account
-        </Typography>
-        <form onSubmit={signUp} style={{ width: '100%', marginTop: '8px' }}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            style={{ marginTop: '24px' }}
-          >
-            Sign Up
-          </Button>
-          {error && <Typography color="error" style={{ marginTop: '16px' }}>{error}</Typography>}
-          {successMessage && <Typography style={{ marginTop: '16px' }}>{successMessage}</Typography>}
-        </form>
-        <Link to="/login" style={{ marginTop: '16px' }}>
-          Already have an account? Sign In
-        </Link>
+    <form onSubmit={signUp}>
+      <div>
+        <RadioGroup row value={role} onChange={e => setRole(e.target.value)}>
+          <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+          <FormControlLabel value="employee" control={<Radio />} label="Employee" />
+        </RadioGroup>
       </div>
-    </Container>
+      <div>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="name"
+          label="Name"
+          name="name"
+          autoComplete="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="username"
+          label="Username"
+          name="username"
+          autoComplete="username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+        />
+      </div>
+      <div>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+      </div>
+      <div>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          id="confirmPassword"
+          autoComplete="current-password"
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="phoneNumber"
+          label="Phone Number"
+          name="phoneNumber"
+          autoComplete="phoneNumber"
+          value={phoneNumber}
+          onChange={e => setPhoneNumber(e.target.value)}
+        />
+      </div>
+      <div>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="address"
+          label="Address"
+          name="address"
+          autoComplete="address"
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+        />
+        {role === 'admin' ? (
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="company"
+            label="Company"
+            name="company"
+            autoComplete="company"
+            value={company}
+            onChange={e => setCompany(e.target.value)}
+          />
+        ) : (
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="company-label">Company</InputLabel>
+            <Select
+              labelId="company-label"
+              value={company}
+              onChange={e => setCompany(e.target.value)}
+            >
+              {companies.map((company) => (
+                <MenuItem key={company.id} value={company.id}>{company.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+      </div>
+      <button type="submit">Sign Up</button>
+      {error && <p>{error}</p>}
+      {successMessage && <p>{successMessage}</p>}
+    </form>
   );
-};
+}
 
-export default SignUp;
+export default Signup;
