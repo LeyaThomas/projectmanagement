@@ -18,7 +18,9 @@ const Login = () => {
         console.log( res.data);
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-        localStorage.setItem('userid', res.data.user_id);
+        localStorage.setItem('userid', res.data.userid);
+        localStorage.setItem('cususerid', res.data.cususerid);
+        localStorage.setItem('companyid', res.data.companyid);
         navigate('/');
     }catch (error) {
         if (error.response.status === 401) {

@@ -9,3 +9,4 @@ export { default as FAQ } from './FAQ/FAQ.jsx';
 export { default as Geography } from './Geography/Geography.jsx';
 export { default as UpdateHub } from './UpdateHub/UpdateHub.jsx';
 export { default as Line } from './Line/Line.jsx';
+export { default as ProjectPulse } from './ProjectPulse/ProjectPulse.jsx';

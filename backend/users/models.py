@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 class Company(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 # model for custom user
 class Cususer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -14,3 +17,6 @@ class Cususer(models.Model):
     address = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     role = models.CharField(max_length=255)  # New role field
+
+    def __str__(self):
+        return self.name

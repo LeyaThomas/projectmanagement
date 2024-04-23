@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FormControl,InputLabel, TextField, FormControlLabel, Radio, RadioGroup, Select, MenuItem } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { FormControl, InputLabel, TextField, FormControlLabel, Radio, RadioGroup, Select, MenuItem } from '@material-ui/core';
 import axios from 'axios';
 
 function Signup() {
@@ -12,24 +12,33 @@ function Signup() {
   const [address, setAddress] = useState('');
   const [role, setRole] = useState('employee');
   const [company, setCompany] = useState('');
+  const [companies, setCompanies] = useState([]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const companies = [
-    { id: 1, name: 'Company 1' },
-    { id: 2, name: 'Company 2' },
-    // Add more companies as needed
-  ];
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/users/companies/');
+        setCompanies(response.data);
+      } catch (error) {
+        console.error('Failed to fetch companies:', error);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
 
   const signUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/register/', {
+      const response = await axios.post('http://localhost:8000/api/user/register/', {
         username,
         email,
         password,
         name,
-        phoneNumber,
+        phone_number : phoneNumber,
         address,
         role,
         company,
@@ -168,7 +177,7 @@ function Signup() {
               onChange={e => setCompany(e.target.value)}
             >
               {companies.map((company) => (
-                <MenuItem key={company.id} value={company.id}>{company.name}</MenuItem>
+                <MenuItem key={company.id} value={company.name}>{company.name}</MenuItem>
               ))}
             </Select>
           </FormControl>

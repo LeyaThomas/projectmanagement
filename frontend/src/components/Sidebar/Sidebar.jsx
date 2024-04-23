@@ -18,6 +18,7 @@ import {
   MenuOutlined as MenuOutlinedIcon,
   ExitToAppOutlined as LogoutIcon,
   UpdateOutlined as UpdateIcon,
+  AssessmentOutlined as AssessmentOutlinedIcon,
 } from '@material-ui/icons';
 
 const Item = ({ title, to, icon, selected, setSelected, onPress }) => {
@@ -61,7 +62,7 @@ const Sidebar = () => {
     { title: "Profit Analysis", to: "/line", icon: <TimelineOutlinedIcon /> },
     { title: "Geography Chart", to: "/geography", icon: <MapOutlinedIcon /> },
     { title: "FAQ Page", to: "/faq", icon: <HelpOutlineOutlinedIcon /> },
-   
+    { title: "Assessment", to: "/pulse", icon: <AssessmentOutlinedIcon />},
     { title: "Logout", to: "/logout", icon: <LogoutIcon /> },
     
   ];

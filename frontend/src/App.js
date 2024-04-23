@@ -7,8 +7,8 @@ import {
   Routes,
   Navigate
 } from "react-router-dom";
-import {Calendar, Contacts, Dashboard, Expense, FAQ, Geography, Line, Login, Signup, Team, UpdateHub } from "./pages";
-import { ProtectedRoute, Sidebar, Topbar } from "./components";
+import {Calendar, Contacts, Dashboard, Expense, FAQ, Geography, Line, Login, ProjectPulse, Signup, Team, UpdateHub } from "./pages";
+import { ProjectButton, ProtectedRoute, Sidebar, Topbar } from "./components";
 
 
 function Logout() {
@@ -56,7 +56,9 @@ function ProtectedRoutes({ setIsCollapsed, isCollapsed }) {
             <Route path="/geography" element={<Geography />} />
             <Route path="/update" element={<UpdateHub />} />
             <Route path="/line" element={<Line />} />
+            <Route path="/pulse" element={<ProjectPulse />} />
           </Routes>
+          <ProjectButton/>
         </div>
       </div>
     </ProtectedRoute>
