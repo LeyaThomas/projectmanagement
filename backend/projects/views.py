@@ -28,10 +28,12 @@ class ProjectEmployeeListCreateView(generics.ListCreateAPIView):
     serializer_class = ProjectEmployeeSerializer
 
 @permission_classes([AllowAny])
-class EmployeeProjectsView(RetrieveAPIView):
-    queryset = ProjectEmployee.objects.all()
-    serializer_class = ProjectEmployeeSerializer
-    lookup_field = 'pk'
+class EmployeeProjectsView(generics.ListAPIView):
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        employee_id = self.kwargs['pk']
+        return Project.objects.filter(projectemployee__employee_id=employee_id)
 
 @permission_classes([AllowAny])
 class ProjectEmployeesView(generics.ListAPIView):

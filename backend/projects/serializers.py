@@ -15,6 +15,7 @@ class ProjectEmployeeSerializer(serializers.ModelSerializer):
         fields = ['project']
 
 class CususerSerializer(serializers.ModelSerializer):
+    projects = ProjectEmployeeSerializer(source='projectemployee_set', many=True, read_only=True)
     class Meta:
         model = Cususer
         fields = '__all__'  # replace with the fields you want to include

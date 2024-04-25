@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {  useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { DataGrid } from '@material-ui/data-grid';
 import { Box, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,9 +8,9 @@ import { tokens } from "../../Theme";
 import axios from 'axios';
 
 const ProjectPulse = () => {
-    const navigate = useNavigate();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState('');
   const [editingId, setEditingId] = useState(null);
@@ -25,14 +25,25 @@ const ProjectPulse = () => {
       axios.get(url)  // Use employee id in API URL
         .then(response => {
           console.log(response.data);
-          const project = response.data.projects;
-          const data = {
-            id: project.id,
-            name: project.name,
-            status: project.status,
-            deadline: project.deadline,
-          };
-          setProjects([data]);  // Wrap data in an array because DataGrid expects an array
+          const projects = response.data;
+          if (projects) {
+            const data = projects.map(project => {
+              if (project) {
+                return {
+                  id: project.id,
+                  name: project.name,
+                  status: project.status,
+                  deadline: project.deadline,
+                };
+              } else {
+                console.error('Project is undefined');
+                return null;
+              }
+            }).filter(item => item !== null);
+            setProjects(data);
+          } else {
+            console.error('Projects is undefined');
+          }
         })
         .catch(error => {
           console.error('There was an error!', error);
@@ -41,7 +52,6 @@ const ProjectPulse = () => {
       console.error('Employee ID is null');
     }
   }, []);
-
   const columns = [
     { field: 'id', headerName: 'Project ID', width: 170 },
     { field: 'name', headerName: 'Project Name', width: 230 },
