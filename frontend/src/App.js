@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import {Calendar, Contacts, Dashboard, Expense, FAQ, Geography, Line, Login, ProjectPulse, Signup, Team, UpdateHub } from "./pages";
 import { ProjectButton, ProtectedRoute, Sidebar, Topbar } from "./components";
+import ProjectCatalog from "./pages/ProjectCatalog/ProjectCatalog";
 
 
 function Logout() {
@@ -57,6 +58,7 @@ function ProtectedRoutes({ setIsCollapsed, isCollapsed }) {
             <Route path="/update" element={<UpdateHub />} />
             <Route path="/line" element={<Line />} />
             <Route path="/pulse" element={<ProjectPulse />} />
+            <Route path="/catalog/:id" element={<ProjectCatalog />} />
           </Routes>
           <ProjectButton/>
         </div>

@@ -4,6 +4,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../Theme"
+import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
 import {
   HomeOutlined as HomeOutlinedIcon,
   PeopleOutlined as PeopleOutlinedIcon,
@@ -63,6 +64,7 @@ const Sidebar = () => {
     { title: "Geography Chart", to: "/geography", icon: <MapOutlinedIcon /> },
     { title: "FAQ Page", to: "/faq", icon: <HelpOutlineOutlinedIcon /> },
     { title: "Assessment", to: "/pulse", icon: <AssessmentOutlinedIcon />},
+    { title: "Catalog", to: "/catalog/:id", icon: <LibraryBooksOutlinedIcon /> },
     { title: "Logout", to: "/logout", icon: <LogoutIcon /> },
     
   ];

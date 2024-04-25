@@ -1,14 +1,20 @@
 # serializers.py
 from rest_framework import serializers
-from .models import Project, ProjectEmployee
+from .models import Project, ProjectEmployee, Cususer
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ['id', 'name', 'objective', 'status', 'deadline']
+        fields = '__all__'
 
 class ProjectEmployeeSerializer(serializers.ModelSerializer):
-    project = ProjectSerializer()
+    project = ProjectSerializer(read_only=True)
+
     class Meta:
         model = ProjectEmployee
-        fields = ['project', 'employee']
+        fields = ['project']
+
+class CususerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cususer
+        fields = '__all__'  # replace with the fields you want to include

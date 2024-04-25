@@ -1,83 +1,125 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Grid, Paper, Typography, Button, Dialog, DialogTitle, DialogContent } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
+import {  useTheme } from "@mui/material";
+import { DataGrid } from '@material-ui/data-grid';
+import { Box, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem } from '@material-ui/core';
+import { Link, useNavigate } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import { tokens } from "../../Theme";
+import axios from 'axios';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        padding: theme.spacing(1),
-        paddingTop: theme.spacing(0),
-    },
-    paper: {
-        height: 350,
-        width: 350,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        cursor: 'pointer',
-        padding: theme.spacing(-10), // Reduce the padding inside the boxes
-        backgroundColor: '#B2BEB5', // Change the color of the boxes to ash
-        border: '2px solid #FFF',
-    },
-    greeting: {
-        marginBottom: theme.spacing(2), // Add a margin to the bottom of the greeting
-        marginTop: theme.spacing(-14), // Add a negative margin to the top of the greeting
-    },
-}));
-function ProjectPulse() {
-    const classes = useStyles();
-    const [selectedProject, setSelectedProject] = useState(null);
-    const [open, setOpen] = useState(false);
+const ProjectPulse = () => {
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [projects, setProjects] = useState([]);
 
-    const projects = [
-        { id: 1, name: 'Project 1', status: 'Active' },
-        { id: 2, name: 'Project 2', status: 'Inactive' },
-        // Add more projects as needed
-    ];
+  useEffect(() => {
+    const employeeId = localStorage.getItem('cususerid');  // Fetch employee id from local storage
+    if (employeeId) {
+      console.log('employeeId:', employeeId);  // Log employeeId
+      const url = `http://localhost:8000/projects/employee/${employeeId}/`;
+      console.log('Request URL:', url);  // Log request URL
+      axios.get(url)  // Use employee id in API URL
+        .then(response => {
+          console.log(response.data);
+          const project = response.data.projects;
+          const data = {
+            id: project.id,
+            name: project.name,
+            status: project.status,
+            deadline: project.deadline,
+          };
+          setProjects([data]);  // Wrap data in an array because DataGrid expects an array
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
+    } else {
+      console.error('Employee ID is null');
+    }
+  }, []);
 
-    const handleOpen = (project) => {
-        setSelectedProject(project);
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    return (
-        <div className={classes.root}>
-            <Typography variant="h4" className={classes.greeting}>Hey, User</Typography>
-            <Grid container spacing={1} style={{ marginLeft: '20px', marginTop: '50px' }}> {/* Add a left margin to the Grid container */}
-                {projects.map((project) => (
-                    <Grid key={project.id} item xs={4}>
-                        <Paper className={classes.paper} onClick={() => handleOpen(project)}>
-                            <Typography variant="h4">{project.name}</Typography> {/* Increase the size of the text */}
-                        </Paper>
-                    </Grid>
-                ))}
-            </Grid>
-
-            {selectedProject && (
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    maxWidth="md"
-                    fullWidth={true}
-                >
-                    <DialogTitle>{selectedProject.name}</DialogTitle>
-                    <DialogContent style={{ minHeight: '400px' }}> {/* Increase the height of the DialogContent */}
-                        <p>Status: {selectedProject.status}</p>
-                        <Link to="/team">
-                            <Button variant="contained" color="primary">
-                                View Team Details
-                            </Button>
-                        </Link>
-                    </DialogContent>
-                </Dialog>
-            )}
+  const columns = [
+    { field: 'id', headerName: 'Project ID', width: 170 },
+    { field: 'name', headerName: 'Project Name', width: 230 },
+    { 
+      field: 'status', 
+      headerName: 'Status', 
+      width: 200,
+      renderCell: (params) => (
+        <div>
+          {params.value}
+          <IconButton size="small" color="primary" onClick={() => handleEdit(params.row.id, params.value)}>
+            <EditIcon />
+          </IconButton>
         </div>
-    );
-}
+      ),
+    },
+    { field: 'deadline', headerName: 'Deadline', width: 200 },
+    {
+        field: 'details',
+        headerName: 'Details',
+        width: 300,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            component={Link}
+            to={`/catalog/${params.row.id}`}
+          >
+            View Details
+          </Button>
+        ),
+      },
+  ];
+
+  const handleEdit = (id, currentStatus) => {
+    setEditingId(id);
+    setStatus(currentStatus);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    console.log(`Update status of project with id ${editingId} to ${status}`);
+    setOpen(false);
+    navigate('/catalog');
+  };
+
+  const handleChange = (event) => {
+    setStatus(event.target.value);
+  };
+
+  return (
+    <Box style={{ height: 400, width: '80%', marginLeft: '8%', backgroundColor: colors.primary[400], borderRadius: '5px',color: `${colors.greenAccent[200]} !important` }}>
+      <DataGrid rows={projects} columns={columns} pageSize={5} />
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Edit Status</DialogTitle>
+        <DialogContent>
+          <Select value={status} onChange={handleChange}>
+            <MenuItem value={'Not Started'}>Not Started</MenuItem>
+            <MenuItem value={'In Progress'}>In Progress</MenuItem>
+            <MenuItem value={'Completed'}>Completed</MenuItem>
+          </Select>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
+};
 
 export default ProjectPulse;
