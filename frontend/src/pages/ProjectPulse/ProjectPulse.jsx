@@ -72,7 +72,7 @@ const ProjectPulse = () => {
     {
         field: 'details',
         headerName: 'Details',
-        width: 300,
+        width: 200,
         renderCell: (params) => (
           <Button
             variant="contained"
@@ -82,6 +82,20 @@ const ProjectPulse = () => {
             to={`/catalog/${params.row.id}`}
           >
             View Details
+          </Button>
+        ),
+      },
+      {
+        field: 'graph',
+        headerName: 'Graph',
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleShowGraph(params.row.id)}
+          >
+            Show Graph
           </Button>
         ),
       },
@@ -107,8 +121,12 @@ const ProjectPulse = () => {
     setStatus(event.target.value);
   };
 
+  const handleShowGraph = (id) => {
+    console.log(`Show graph for project with id ${id}`);
+  };
+
   return (
-    <Box style={{ height: 400, width: '80%', marginLeft: '8%', backgroundColor: colors.primary[400], borderRadius: '5px',color: `${colors.greenAccent[200]} !important` }}>
+    <Box style={{ height: 400, width: '90%', marginLeft: '6%', backgroundColor: colors.primary[400], borderRadius: '5px',color: `${colors.greenAccent[200]} !important` }}>
       <DataGrid rows={projects} columns={columns} pageSize={5} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Status</DialogTitle>
